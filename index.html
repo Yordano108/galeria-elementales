@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="shortcut icon" href="img/alquimia.png" type="image/x-icon" />
+    <title>Bestiario de Elementales</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <link rel="stylesheet" href="css/styles.css" />
+</head>
+
+<body>
+
+    <div id="cuerpo" style="display: contents"></div>
+
+    <script src="posts.js"></script>
+
+    <script type="text/babel">
+
+        const { useRef } = React;
+
+
+        function Header({ titulo }) {
+            return (
+                <header className="header">
+                    <h1 className="main-title">{titulo}</h1>
+                </header>
+            );
+        }
+
+
+        function Post({ post }) {
+            const { title, description, content, image, created_at } = post;
+            const modalRef = useRef(null);
+
+            const abrirModal = () => {
+                modalRef.current.showModal();
+            };
+
+            const cerrarModal = (e) => {
+                e.stopPropagation();
+                modalRef.current.close();
+            };
+
+
+            const clickEnDialog = (e) => {
+                const rect = modalRef.current.getBoundingClientRect();
+                const dentro =
+                    rect.top <= e.clientY &&
+                    e.clientY <= rect.top + rect.height &&
+                    rect.left <= e.clientX &&
+                    e.clientX <= rect.left + rect.width;
+                if (!dentro) modalRef.current.close();
+            };
+
+            return (
+                <>
+                    <article className="mythic-card" onClick={abrirModal}>
+                        <div className="card-border">
+                            <div className="image-wrapper">
+                                <img src={image} alt={title} className="card-image" loading="lazy" />
+                            </div>
+                            <div className="card-footer-mini">
+                                <h2 className="card-title-mini">{title}</h2>
+                                <span className="card-subtitle-mini">{description}</span>
+                            </div>
+                        </div>
+                    </article>
+
+                    <dialog ref={modalRef} className="mythic-modal" onClick={clickEnDialog}>
+                        <div className="modal-border">
+                            <button className="close-btn" onClick={cerrarModal} aria-label="Cerrar modal">
+                                &times;
+                            </button>
+
+                            <div className="modal-grid">
+                                <div className="modal-image-container">
+                                    <img src={image} alt={title} className="modal-image" />
+                                </div>
+
+                                <div className="modal-info">
+                                    <span className="modal-date">{created_at}</span>
+                                    <h2 className="modal-title">{title}</h2>
+                                    <h3 className="modal-subtitle">{description}</h3>
+                                    <hr className="modal-divider" />
+                                    <p className="modal-body">{content}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </dialog>
+                </>
+            );
+        }
+
+
+        function Galeria({ posts }) {
+            return (
+                <main className="gallery-container">
+                    <section className="grid-gallery">
+                        {posts.map((post) => (
+                            /* Es obligatorio pasar una 'key' única cuando renderizamos listas en React */
+                            <Post key={post.id} post={post} />
+                        ))}
+                    </section>
+                </main>
+            );
+        }
+
+
+        function App() {
+            return (
+                <>
+                    <Header titulo="Seres Elementales" />
+                    <Galeria posts={postsData} />
+                </>
+            );
+        }
+
+        const container = document.getElementById('cuerpo');
+        const cuerpo = ReactDOM.createRoot(container);
+        cuerpo.render(<App />);
+
+    </script>
+</body>
+
+</html>

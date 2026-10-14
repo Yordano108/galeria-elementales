@@ -1,0 +1,295 @@
+:root {
+    --color-bg-dark: #12100e;
+    --color-gold-primary: #c29b53;
+    --color-gold-light: #f7e7c4;
+    --color-gold-border: #7a5a29;
+
+    --color-parchment-base: #f5ead2;
+    --color-parchment-dark: #e3ce9e;
+    --color-parchment-border: #684f28;
+
+    --color-text-dark: #2a241e;
+    --color-text-title: #2b1f10;
+    --color-text-muted: #5c411d;
+    --color-text-accent: #7a5c2d;
+}
+
+html,
+body {
+    width: 100vw;
+    height: 100vh;
+    margin: 0;
+    padding: 0;
+    overflow: hidden !important; /* Mantiene la aplicación fija en pantalla */
+}
+
+body {
+    background-color: var(--color-bg-dark);
+    background-image: radial-gradient(
+        circle at 50% 20%,
+        #292017 0%,
+        #12100e 80%
+    );
+    color: var(--color-gold-light);
+    font-family:
+        system-ui,
+        -apple-system,
+        sans-serif;
+    display: flex;
+    flex-direction: column;
+}
+
+.header {
+    height: 12vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.main-title {
+    font-size: clamp(1.8rem, 4vh, 3.2rem);
+    font-weight: 900;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    background: linear-gradient(
+        180deg,
+        var(--color-gold-light) 0%,
+        var(--color-gold-primary) 100%
+    );
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    filter: drop-shadow(0 0.3vh 0.8vh rgba(0, 0, 0, 0.8));
+    margin: 0;
+}
+
+.subtitle {
+    font-size: clamp(0.75rem, 1.4vh, 1.1rem);
+    color: #a38d6d;
+    font-style: italic;
+    letter-spacing: 0.1em;
+    margin-top: 0.3vh;
+}
+
+.gallery-container {
+    height: 88vh;
+    width: 92vw;
+    max-width: 1700px;
+    margin: 0 auto;
+    padding-bottom: 3vh;
+}
+
+.grid-gallery {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2vw;
+    height: 100%;
+}
+
+@media (max-width: 1024px) {
+    .grid-gallery {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+.mythic-card {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(145deg, #dfc392, #9e7b45);
+    padding: 0.5vw;
+    border-radius: 1.2vw;
+    box-shadow: 0 1vh 2.5vh rgba(0, 0, 0, 0.6);
+    border: 0.15vw solid var(--color-parchment-border);
+    cursor: pointer;
+    transition:
+        transform 0.3s ease,
+        box-shadow 0.3s ease;
+    display: flex;
+}
+
+.mythic-card:hover {
+    transform: translateY(-1.2vh) scale(1.02);
+    box-shadow:
+        0 2vh 4vh rgba(0, 0, 0, 0.9),
+        0 0 2vw rgba(212, 175, 55, 0.4);
+}
+
+.card-border {
+    border: 0.12vw solid var(--color-parchment-border);
+    border-radius: 0.9vw;
+    padding: 0.8vw;
+    background: radial-gradient(
+        circle at center,
+        var(--color-parchment-base) 0%,
+        var(--color-parchment-dark) 100%
+    );
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+}
+
+.image-wrapper {
+    width: 100%;
+    flex-grow: 1;
+    border-radius: 0.6vw;
+    overflow: hidden;
+    border: 0.15vw solid var(--color-gold-border);
+    box-shadow: inset 0 0 1vh rgba(0, 0, 0, 0.4);
+    background-color: #2a2015;
+}
+
+.card-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.card-footer-mini {
+    padding-top: 1vh;
+    text-align: center;
+}
+
+.card-title-mini {
+    font-size: clamp(1.2rem, 2.2vh, 1.8rem);
+    color: var(--color-text-title);
+    font-weight: 900;
+    margin: 0;
+    line-height: 1.1;
+}
+
+.card-subtitle-mini {
+    font-size: clamp(0.75rem, 1.2vh, 0.95rem);
+    color: var(--color-text-muted);
+    font-style: italic;
+    font-weight: 700;
+}
+
+/* 6. Centrado Perfecto del Modal (<dialog>) */
+.mythic-modal {
+    border: none;
+    background: transparent;
+    padding: 0;
+    max-width: 80vw;
+    width: 900px;
+    max-height: 85vh;
+
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    margin: 0;
+}
+
+.mythic-modal:not([open]) {
+    display: none;
+}
+
+.mythic-modal::backdrop {
+    background: rgba(10, 8, 6, 0.85);
+    backdrop-filter: blur(6px);
+}
+
+.modal-border {
+    background: radial-gradient(
+        circle at center,
+        var(--color-parchment-base) 0%,
+        var(--color-parchment-dark) 100%
+    );
+    border: 0.3vw solid #9e7b45;
+    outline: 0.15vw solid var(--color-parchment-border);
+    border-radius: 1.5vw;
+    padding: 2.5vw;
+    position: relative;
+    box-shadow: 0 3vh 6vh rgba(0, 0, 0, 0.9);
+}
+
+.close-btn {
+    position: absolute;
+    top: 1vw;
+    right: 1.5vw;
+    background: transparent;
+    border: none;
+    font-size: 2.2rem;
+    font-weight: bold;
+    color: var(--color-text-title);
+    cursor: pointer;
+    line-height: 1;
+    transition:
+        color 0.2s,
+        transform 0.2s;
+    z-index: 10;
+}
+
+.close-btn:hover {
+    color: #8c1d1d;
+    transform: scale(1.15);
+}
+
+.modal-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2.5vw;
+    align-items: center;
+}
+
+.modal-image-container {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    border-radius: 1vw;
+    overflow: hidden;
+    border: 0.2vw solid var(--color-gold-border);
+    box-shadow: 0 1vh 2vh rgba(0, 0, 0, 0.4);
+    background-color: #2a2015;
+}
+
+.modal-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.modal-info {
+    display: flex;
+    flex-direction: column;
+    gap: 1vh;
+    color: var(--color-text-dark);
+}
+
+.modal-date {
+    font-size: 0.85rem;
+    color: var(--color-text-accent);
+    font-weight: 700;
+}
+
+.modal-title {
+    font-size: clamp(2rem, 3.5vh, 2.8rem);
+    color: var(--color-text-title);
+    font-weight: 900;
+    line-height: 1;
+    margin: 0;
+}
+
+.modal-subtitle {
+    font-size: clamp(1rem, 2vh, 1.3rem);
+    color: var(--color-text-muted);
+    font-style: italic;
+    font-weight: 700;
+    margin: 0;
+}
+
+.modal-divider {
+    border: 0;
+    height: 0.15vh;
+    background: var(--color-gold-border);
+    margin: 1vh 0;
+}
+
+.modal-body {
+    font-size: clamp(0.95rem, 1.8vh, 1.1rem);
+    line-height: 1.6;
+    color: var(--color-text-dark);
+    margin: 0;
+}
